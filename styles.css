@@ -127,7 +127,10 @@ body {
     font-family: 'Dancing Script', cursive;
     font-weight: 600;
     font-size: 36px;
-    color: #ffffff;
+    color: #ff6b35;
+}
+.orange-text {
+    color: #ff6b35;
 }
 
 .hero-description {
