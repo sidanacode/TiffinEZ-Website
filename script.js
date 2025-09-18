@@ -1,5 +1,31 @@
 // Smooth scrolling for navigation links
 document.addEventListener('DOMContentLoaded', function() {
+    // Scroll down icon functionality
+    const scrollDownIcon = document.querySelector('.scroll-down-icon');
+    if (scrollDownIcon) {
+        scrollDownIcon.addEventListener('click', function() {
+            const problemSection = document.getElementById('problem');
+            if (problemSection) {
+                problemSection.scrollIntoView({ 
+                    behavior: 'smooth',
+                    block: 'start'
+                });
+            }
+        });
+    }
+
+    // Mobile menu functionality
+    const mobileMenuToggle = document.getElementById('mobileMenuToggle');
+    const navMenu = document.getElementById('navMenu');
+    
+    if (mobileMenuToggle && navMenu) {
+        mobileMenuToggle.addEventListener('click', function() {
+            mobileMenuToggle.classList.toggle('active');
+            navMenu.classList.toggle('active');
+            document.body.style.overflow = navMenu.classList.contains('active') ? 'hidden' : 'auto';
+        });
+    }
+
     // Handle navigation clicks
     const navLinks = document.querySelectorAll('.nav-link');
     navLinks.forEach(link => {
@@ -13,6 +39,13 @@ document.addEventListener('DOMContentLoaded', function() {
                     behavior: 'smooth',
                     block: 'start'
                 });
+                
+                // Close mobile menu if open
+                if (navMenu && navMenu.classList.contains('active')) {
+                    mobileMenuToggle.classList.remove('active');
+                    navMenu.classList.remove('active');
+                    document.body.style.overflow = 'auto';
+                }
             }
         });
     });
@@ -24,7 +57,38 @@ document.addEventListener('DOMContentLoaded', function() {
     const allVideos = document.querySelectorAll('.app-video');
 
     solutionTiles.forEach(tile => {
+        // Desktop hover
         tile.addEventListener('mouseenter', function() {
+            // Only on desktop
+            if (window.innerWidth > 768) {
+                // Remove active class from all tiles and videos
+                solutionTiles.forEach(t => t.classList.remove('active'));
+                allVideos.forEach(video => {
+                    video.classList.remove('active');
+                    video.pause();
+                });
+                
+                // Add active class to current tile
+                this.classList.add('active');
+                
+                // Shift tiles to left
+                solutionTilesContainer.classList.add('shifted');
+                
+                // Show phone mockup with animation
+                phoneMockupContainer.classList.add('active');
+                
+                // Show and play corresponding video
+                const target = this.getAttribute('data-target');
+                const targetVideo = document.getElementById(`video-${target}`);
+                if (targetVideo) {
+                    targetVideo.classList.add('active');
+                    targetVideo.play();
+                }
+            }
+        });
+
+        // Mobile click
+        tile.addEventListener('click', function() {
             // Remove active class from all tiles and videos
             solutionTiles.forEach(t => t.classList.remove('active'));
             allVideos.forEach(video => {
@@ -35,9 +99,6 @@ document.addEventListener('DOMContentLoaded', function() {
             // Add active class to current tile
             this.classList.add('active');
             
-            // Shift tiles to left
-            solutionTilesContainer.classList.add('shifted');
-            
             // Show phone mockup with animation
             phoneMockupContainer.classList.add('active');
             
@@ -46,10 +107,48 @@ document.addEventListener('DOMContentLoaded', function() {
             const targetVideo = document.getElementById(`video-${target}`);
             if (targetVideo) {
                 targetVideo.classList.add('active');
-                targetVideo.play();
+                targetVideo.currentTime = 0; // Reset to beginning
+                
+                // Enable autoplay for future videos
+                targetVideo.autoplay = true;
+                targetVideo.muted = true; // Muted is required for autoplay
+                
+                targetVideo.play().catch(e => {
+                    console.log('Video play failed on mobile:', e);
+                    // Try to play with different settings
+                    targetVideo.muted = true;
+                    targetVideo.autoplay = true;
+                    targetVideo.play().catch(err => {
+                        console.log('Second attempt failed:', err);
+                    });
+                });
             }
         });
     });
+
+    // Mobile autoplay setup
+    if (window.innerWidth <= 768) {
+        // Enable autoplay for all videos on mobile
+        allVideos.forEach(video => {
+            video.autoplay = true;
+            video.muted = true;
+            video.loop = true;
+        });
+        
+        // Play first video by default on mobile
+        setTimeout(() => {
+            const firstVideo = document.getElementById('video-customers');
+            const firstTile = document.querySelector('.solution-tile[data-target="customers"]');
+            if (firstVideo && firstTile) {
+                firstTile.classList.add('active');
+                phoneMockupContainer.classList.add('active');
+                firstVideo.classList.add('active');
+                firstVideo.play().catch(e => {
+                    console.log('Initial video play failed:', e);
+                });
+            }
+        }, 1000);
+    }
 
     // Hide phone mockup when mouse leaves solution section
     const solutionSection = document.querySelector('.solution-section');
@@ -122,6 +221,8 @@ document.addEventListener('DOMContentLoaded', function() {
         heroSection.style.opacity = '1';
         heroSection.style.transform = 'translateY(0)';
     }
+
+    // Gradient wave effect is now automatic - no JavaScript needed
 });
 
 // Add loading animation for images
@@ -170,4 +271,5 @@ document.addEventListener('DOMContentLoaded', function() {
             closeModal();
         }
     });
+
 });
