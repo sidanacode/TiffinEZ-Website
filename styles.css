@@ -1611,3 +1611,169 @@ html {
     opacity: 0;
     transition: opacity 0.3s ease;
 }
+
+/* Hero CTA */
+.cta-waitlist {
+    background-color: #ff6b35;
+    color: #ffffff;
+    padding: 16px 20px;
+    border-radius: 10px;
+    font-size: 18px;
+    font-weight: 700;
+    text-decoration: none;
+    border: 1px solid rgba(255,255,255,0.08);
+    box-shadow: 0 8px 25px rgba(255, 107, 53, 0.35);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.cta-waitlist:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 30px rgba(255, 107, 53, 0.45);
+}
+
+.cta-waitlist:active {
+    transform: translateY(0);
+}
+
+/* Team grid improvements */
+.team-list {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+}
+
+.team-member {
+    background: linear-gradient(145deg, #2d2d2d, #3a3a3a);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: 16px;
+    padding: 24px;
+}
+
+@media (max-width: 1024px) {
+    .team-list { grid-template-columns: 1fr 1fr; }
+}
+
+@media (max-width: 600px) {
+    .team-list { grid-template-columns: 1fr; }
+}
+
+/* About Section */
+.about-section {
+    padding: 100px 0;
+    background-color: #1d1d1d;
+}
+
+.about-content {
+    max-width: 900px;
+    color: #cccccc;
+    line-height: 1.8;
+}
+
+.about-headline {
+    font-size: 24px;
+    font-weight: 700;
+    color: #ffffff;
+    margin-bottom: 16px;
+}
+
+/* Product Section */
+.product-section {
+    padding: 100px 0;
+    background-color: #1a1a1a;
+}
+
+.product-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+}
+
+.product-card {
+    background: linear-gradient(145deg, #2d2d2d, #3a3a3a);
+    border-radius: 16px;
+    padding: 24px;
+    border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.product-title {
+    font-size: 20px;
+    font-weight: 700;
+    color: #ffffff;
+    margin-bottom: 8px;
+}
+
+.product-description {
+    font-size: 16px;
+    color: #e0e0e0;
+    line-height: 1.7;
+}
+
+.product-stage {
+    margin-top: 24px;
+    color: #cccccc;
+}
+
+/* Team Section */
+.team-section {
+    padding: 100px 0;
+    background-color: #1d1d1d;
+}
+
+.team-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.team-member {
+    background: linear-gradient(145deg, #2d2d2d, #3a3a3a);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: 16px;
+    padding: 24px;
+}
+
+.member-name {
+    font-size: 20px;
+    font-weight: 700;
+    color: #ffffff;
+}
+
+.member-role {
+    font-size: 14px;
+    color: #ff6b35;
+    margin-bottom: 8px;
+}
+
+.member-bio {
+    font-size: 16px;
+    color: #e0e0e0;
+    line-height: 1.7;
+}
+
+.member-links a {
+    color: #cccccc;
+    text-decoration: none;
+}
+
+.member-links a:hover {
+    color: #ff6b35;
+}
+
+/* Company Section */
+.company-section {
+    padding: 100px 0;
+    background-color: #1a1a1a;
+}
+
+.company-content p {
+    color: #cccccc;
+    margin-bottom: 8px;
+}
+
+/* Responsive for new sections */
+@media (max-width: 1024px) {
+    .product-grid {
+        grid-template-columns: 1fr;
+        gap: 16px;
+    }
+}
