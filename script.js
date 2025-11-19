@@ -167,10 +167,13 @@ document.addEventListener('DOMContentLoaded', function() {
     // App store button functionality
     const appStoreLinks = document.querySelectorAll('.app-store-link');
     appStoreLinks.forEach(link => {
-        link.addEventListener('click', function(e) {
-            e.preventDefault();
-            showComingSoonModal();
-        });
+        const status = link.dataset.status || 'coming-soon';
+        if (status === 'coming-soon') {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                showComingSoonModal();
+            });
+        }
     });
 
     // Add scroll effect to header
