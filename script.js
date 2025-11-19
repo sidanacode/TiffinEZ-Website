@@ -50,117 +50,31 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
-    // Solution tiles hover animation
+    // Solution tiles highlight interactions
     const solutionTiles = document.querySelectorAll('.solution-tile');
-    const phoneMockupContainer = document.querySelector('.phone-mockup-container');
-    const solutionTilesContainer = document.querySelector('.solution-tiles');
-    const allVideos = document.querySelectorAll('.app-video');
-
-    solutionTiles.forEach(tile => {
-        // Desktop hover
-        tile.addEventListener('mouseenter', function() {
-            // Only on desktop
-            if (window.innerWidth > 768) {
-                // Remove active class from all tiles and videos
-                solutionTiles.forEach(t => t.classList.remove('active'));
-                allVideos.forEach(video => {
-                    video.classList.remove('active');
-                    video.pause();
-                });
-                
-                // Add active class to current tile
-                this.classList.add('active');
-                
-                // Shift tiles to left
-                solutionTilesContainer.classList.add('shifted');
-                
-                // Show phone mockup with animation
-                phoneMockupContainer.classList.add('active');
-                
-                // Show and play corresponding video
-                const target = this.getAttribute('data-target');
-                const targetVideo = document.getElementById(`video-${target}`);
-                if (targetVideo) {
-                    targetVideo.classList.add('active');
-                    targetVideo.play();
+    const solutionSection = document.querySelector('.solution-section');
+    
+    if (solutionTiles.length) {
+        solutionTiles.forEach(tile => {
+            tile.addEventListener('mouseenter', function() {
+                if (window.innerWidth > 768) {
+                    solutionTiles.forEach(t => t.classList.remove('active'));
+                    this.classList.add('active');
                 }
-            }
-        });
-
-        // Mobile click
-        tile.addEventListener('click', function() {
-            // Remove active class from all tiles and videos
-            solutionTiles.forEach(t => t.classList.remove('active'));
-            allVideos.forEach(video => {
-                video.classList.remove('active');
-                video.pause();
             });
             
-            // Add active class to current tile
-            this.classList.add('active');
-            
-            // Show phone mockup with animation
-            phoneMockupContainer.classList.add('active');
-            
-            // Show and play corresponding video
-            const target = this.getAttribute('data-target');
-            const targetVideo = document.getElementById(`video-${target}`);
-            if (targetVideo) {
-                targetVideo.classList.add('active');
-                targetVideo.currentTime = 0; // Reset to beginning
-                
-                // Enable autoplay for future videos
-                targetVideo.autoplay = true;
-                targetVideo.muted = true; // Muted is required for autoplay
-                
-                targetVideo.play().catch(e => {
-                    console.log('Video play failed on mobile:', e);
-                    // Try to play with different settings
-                    targetVideo.muted = true;
-                    targetVideo.autoplay = true;
-                    targetVideo.play().catch(err => {
-                        console.log('Second attempt failed:', err);
-                    });
-                });
-            }
+            tile.addEventListener('click', function() {
+                solutionTiles.forEach(t => t.classList.remove('active'));
+                this.classList.add('active');
+            });
         });
-    });
 
-    // Mobile autoplay setup
-    if (window.innerWidth <= 768) {
-        // Enable autoplay for all videos on mobile
-        allVideos.forEach(video => {
-            video.autoplay = true;
-            video.muted = true;
-            video.loop = true;
-        });
-        
-        // Play first video by default on mobile
-        setTimeout(() => {
-            const firstVideo = document.getElementById('video-customers');
-            const firstTile = document.querySelector('.solution-tile[data-target="customers"]');
-            if (firstVideo && firstTile) {
-                firstTile.classList.add('active');
-                phoneMockupContainer.classList.add('active');
-                firstVideo.classList.add('active');
-                firstVideo.play().catch(e => {
-                    console.log('Initial video play failed:', e);
-                });
-            }
-        }, 1000);
+        if (solutionSection) {
+            solutionSection.addEventListener('mouseleave', function() {
+                solutionTiles.forEach(t => t.classList.remove('active'));
+            });
+        }
     }
-
-    // Hide phone mockup when mouse leaves solution section
-    const solutionSection = document.querySelector('.solution-section');
-    solutionSection.addEventListener('mouseleave', function() {
-        solutionTiles.forEach(t => t.classList.remove('active'));
-        allVideos.forEach(video => {
-            video.classList.remove('active');
-            video.pause();
-        });
-        solutionTilesContainer.classList.remove('shifted');
-        phoneMockupContainer.classList.remove('active');
-    });
 
     // Contact button functionality - now handled by mailto link
 
@@ -276,3 +190,4 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
 });
+
